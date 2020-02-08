@@ -11,14 +11,35 @@
         <Nuxt-link to="/air/">国内机票</Nuxt-link>
       </el-row>
       <div class="user">
-        <Nuxt-link to="/user/login">登录/注册</Nuxt-link>
+        <el-dropdown v-if="$store.state.user.userInfo.token">
+          <el-row type="flex" align="middle" class="el-dropdown-link">
+            <nuxt-link to="#">
+              <img :src="$axios.defaults.baseURL + $store.state.user.userInfo.user.defaultAvatar" />
+              {{$store.state.user.userInfo.user.nickname}}
+            </nuxt-link>
+            <i class="el-icon-caret-bottom el-icon--right"></i>
+          </el-row>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>
+              <nuxt-link to="#">个人中心</nuxt-link>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <div @click="handleLogout">退出</div>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+        <Nuxt-link to="/user/login" v-else>登录/注册</Nuxt-link>
       </div>
     </el-row>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    handleLogout() {}
+  }
+};
 </script>
 
 <style scoped lang='less'>
@@ -59,6 +80,27 @@ export default {};
     font-size: 14px;
     a {
       color: #cccccc;
+    }
+    .el-dropdown-link {
+      margin-left: 20px;
+
+      &:hover {
+        img {
+          border-color: #409eff;
+        }
+      }
+
+      a {
+        display: block;
+      }
+
+      img {
+        width: 32px;
+        height: 32px;
+        vertical-align: middle;
+        border: 2px #fff solid;
+        border-radius: 50px;
+      }
     }
   }
 }
