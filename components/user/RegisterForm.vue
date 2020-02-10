@@ -50,6 +50,15 @@ export default {
         callback();
       }
     };
+    var phonenumber = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入手机号码"));
+      } else if (!/^1[3456789]\d{9}$/.test(value)) {
+        callback(new Error("请输入正确的手机号码"));
+      } else {
+        callback();
+      }
+    };
     return {
       // 表单数据
       form: {
@@ -61,13 +70,7 @@ export default {
       },
       // 表单规则
       rules: {
-        username: [
-          {
-            required: true,
-            message: "请输入手机号码",
-            trigger: "blur"
-          }
-        ],
+        username: [{ validator: phonenumber, trigger: "blur" }],
         nickname: [
           {
             required: true,
@@ -89,7 +92,9 @@ export default {
   },
   methods: {
     // 发送验证码
-    handleSendCaptcha() {},
+    handleSendCaptcha() {
+        
+    },
 
     // 注册
     handleRegSubmit() {
