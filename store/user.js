@@ -34,5 +34,15 @@ export const actions = {
         }).then(res => {
             return res
         })
+    },
+    register(state, data) {
+        return this.$axios({
+            url: '/accounts/register',
+            method: 'POST',
+            data
+        }).then(res => {
+            const { data } = res;
+            state.commit('setUserInfo', data)
+        })
     }
 }

@@ -106,7 +106,16 @@ export default {
     },
     // 注册
     handleRegSubmit() {
-      console.log(this.form);
+      // console.log(this.form);
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          const { checkpassword, ...data } = this.form;
+          this.$store.dispatch("user/register", data).then(() => {
+            this.$message.success("注册成功,将为您自动登录");
+            this.$router.push("/");
+          });
+        }
+      });
     }
   }
 };
