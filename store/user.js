@@ -22,6 +22,7 @@ export const actions = {
         }).then(res => {
             const { data } = res;
             state.commit("setUserInfo", data);
+            return data.user.nickname
         });
     },
     getcaptchas(state, data) {

@@ -48,7 +48,7 @@ export default {
     // 提交登录
     handleLoginSubmit() {
       //   console.log(this.form);
-      console.log(this.$refs.form);
+      // console.log(this.$refs.form);
       this.$refs.form.validate(valid => {
         if (valid) {
           // 使用actions实现异步获取
@@ -62,7 +62,8 @@ export default {
           //     this.$store.commit("user/setUserInfo", data);
           //   });
           this.$store.dispatch("user/login", this.form).then(res => {
-            this.$message.success("登录成功");
+            // console.log(res);
+            this.$message.success("欢迎回来,亲爱的" + res);
             this.$router.push("/");
           });
         }
