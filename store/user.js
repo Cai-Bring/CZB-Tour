@@ -23,5 +23,16 @@ export const actions = {
             const { data } = res;
             state.commit("setUserInfo", data);
         });
+    },
+    getcaptchas(state, data) {
+        return this.$axios({
+            url: '/captchas',
+            method: 'POST',
+            data: {
+                tel: data
+            }
+        }).then(res => {
+            return res
+        })
     }
 }

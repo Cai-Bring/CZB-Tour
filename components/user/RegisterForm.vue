@@ -93,9 +93,17 @@ export default {
   methods: {
     // 发送验证码
     handleSendCaptcha() {
-        
+      this.$refs.form.validateField("username", valid => {
+        if (!valid) {
+          this.$store
+            .dispatch("user/getcaptchas", this.form.username)
+            .then(res => {
+              // console.log(res);
+              this.$message.success("验证码为:" + res.data.code);
+            });
+        }
+      });
     },
-
     // 注册
     handleRegSubmit() {
       console.log(this.form);
