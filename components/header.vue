@@ -1,36 +1,38 @@
 <template>
-  <div class="header">
-    <el-row type="flex" justify="space-between" align="middle" style="height:60px">
-      <div class="logo">
-        <img src="/logo.jpg" alt />
-      </div>
-      <el-row class="nav" type="flex">
-        <Nuxt-link to="/">首页</Nuxt-link>
-        <Nuxt-link to="/post/">旅游攻略</Nuxt-link>
-        <Nuxt-link to="/hotel/">酒店</Nuxt-link>
-        <Nuxt-link to="/air/">国内机票</Nuxt-link>
+  <div class="top">
+    <div class="header">
+      <el-row type="flex" justify="space-between" align="middle" style="height:60px">
+        <div class="logo">
+          <img src="/logo.jpg" alt />
+        </div>
+        <el-row class="nav" type="flex">
+          <Nuxt-link to="/">首页</Nuxt-link>
+          <Nuxt-link to="/post/">旅游攻略</Nuxt-link>
+          <Nuxt-link to="/hotel/">酒店</Nuxt-link>
+          <Nuxt-link to="/air/">国内机票</Nuxt-link>
+        </el-row>
+        <div class="user">
+          <el-dropdown v-if="$store.state.user.userInfo.token">
+            <el-row type="flex" align="middle" class="el-dropdown-link">
+              <nuxt-link to="#">
+                <img :src="$axios.defaults.baseURL + $store.state.user.userInfo.user.defaultAvatar" />
+                {{$store.state.user.userInfo.user.nickname}}
+              </nuxt-link>
+              <i class="el-icon-caret-bottom el-icon--right"></i>
+            </el-row>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>
+                <nuxt-link to="#">个人中心</nuxt-link>
+              </el-dropdown-item>
+              <el-dropdown-item>
+                <div @click="handleLogout">退出</div>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <Nuxt-link to="/user/login" v-else>登录/注册</Nuxt-link>
+        </div>
       </el-row>
-      <div class="user">
-        <el-dropdown v-if="$store.state.user.userInfo.token">
-          <el-row type="flex" align="middle" class="el-dropdown-link">
-            <nuxt-link to="#">
-              <img :src="$axios.defaults.baseURL + $store.state.user.userInfo.user.defaultAvatar" />
-              {{$store.state.user.userInfo.user.nickname}}
-            </nuxt-link>
-            <i class="el-icon-caret-bottom el-icon--right"></i>
-          </el-row>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>
-              <nuxt-link to="#">个人中心</nuxt-link>
-            </el-dropdown-item>
-            <el-dropdown-item>
-              <div @click="handleLogout">退出</div>
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-        <Nuxt-link to="/user/login" v-else>登录/注册</Nuxt-link>
-      </div>
-    </el-row>
+    </div>
   </div>
 </template>
 
@@ -56,6 +58,10 @@ export default {
 </script>
 
 <style scoped lang='less'>
+.top {
+  height: 60px;
+  box-shadow: #cccccc 2px 2px 2px;
+}
 .header {
   width: 1000px;
   height: 60px;
