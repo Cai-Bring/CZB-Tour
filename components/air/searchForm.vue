@@ -72,8 +72,8 @@ export default {
         destCode: "", // 到达城市代码
         departDate: "" // 日期字符串
       },
-      departdata: {},
-      destdata: {},
+      departdata: [],
+      destdata: [],
       currentTab: 0
     };
   },
@@ -89,13 +89,9 @@ export default {
       }
     },
 
-    // 出发城市输入框获得焦点时触发
-    // value 是选中的值，cb是回调函数，接收要展示的列表
-    queryDepartSearch(value, cb) {
-      if (!value) {
-        return;
-      }
-      this.$axios({
+    // 封装
+    getCityList(value) {
+      return this.$axios({
         url: "/airs/city",
         params: {
           name: value
@@ -107,6 +103,16 @@ export default {
           v.value = v.name.replace("市", "");
           return v;
         });
+        return newData;
+      });
+    },
+    // 出发城市输入框获得焦点时触发
+    // value 是选中的值，cb是回调函数，接收要展示的列表
+    queryDepartSearch(value, cb) {
+      if (!value) {
+        return;
+      }
+      this.getCityList(value).then(newData => {
         // console.log(newData);
         this.departdata = newData;
         cb(newData);
@@ -119,18 +125,7 @@ export default {
       if (!value) {
         return;
       }
-      this.$axios({
-        url: "/airs/city",
-        params: {
-          name: value
-        }
-      }).then(res => {
-        const { data } = res.data;
-        const newData = data.map(v => {
-          v.value = v.name.replace("市", "");
-          return v;
-        });
-        // console.log(newData);
+      this.getCityList(value).then(newData => {
         this.destdata = newData;
         cb(newData);
       });
@@ -141,6 +136,8 @@ export default {
       //   console.log(this.departdata);
       if (this.departdata.length === 0) {
         return;
+      }else if(!this.form.departCity){
+          
       }
       this.form.departCity = this.departdata[0].value;
       this.form.departCode = this.departdata[0].sort;
@@ -199,8 +196,8 @@ export default {
         return;
       }
       this.$router.push({
-        path: "/air/flights",
-        // query传递参数
+        url: "/air/flights",
+        // query是url参数
         query: this.form
       });
     }
