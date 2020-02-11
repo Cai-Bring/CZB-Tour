@@ -136,8 +136,9 @@ export default {
       //   console.log(this.departdata);
       if (this.departdata.length === 0) {
         return;
-      }else if(!this.form.departCity){
-          
+      } else if (this.form.departCity === "") {
+        (this.form.departCity = ""), (this.form.departCode = "");
+        return;
       }
       this.form.departCity = this.departdata[0].value;
       this.form.departCode = this.departdata[0].sort;
@@ -146,6 +147,9 @@ export default {
     // 目标城市失去焦点的时候触发
     handleDestBlur() {
       if (this.destdata.length === 0) {
+        return;
+      } else if (this.form.destCity === "") {
+        (this.form.destCity = ""), (this.form.destCode = "");
         return;
       }
       this.form.destCity = this.destdata[0].value;
