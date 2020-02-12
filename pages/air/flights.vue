@@ -10,7 +10,7 @@
         <FlightsListHead></FlightsListHead>
 
         <!-- 航班信息 -->
-        <FlightsItem></FlightsItem>
+        <FlightsItem v-for="(item,index) in dataList" :key="index" :data="item"></FlightsItem>
       </div>
 
       <!-- 侧边栏 -->
@@ -28,11 +28,22 @@ import FlightsItem from "@/components/air/flightsItem.vue";
 
 export default {
   data() {
-    return {};
+    return {
+      dataList: []
+    };
   },
   components: {
     FlightsListHead,
     FlightsItem
+  },
+  mounted() {
+    this.$axios({
+      url: "/airs",
+      params: this.$route.query
+    }).then(res => {
+      // console.log(res);
+      this.dataList = res.data.flights;
+    });
   }
 };
 </script>
