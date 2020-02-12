@@ -10,7 +10,17 @@
         <FlightsListHead></FlightsListHead>
 
         <!-- 航班信息 -->
-        <FlightsItem v-for="(item,index) in dataList" :key="index" :data="item"></FlightsItem>
+        <FlightsItem v-for="(item,index) in List" :key="index" :data="item"></FlightsItem>
+        <!-- 分页 -->
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="pageIndex"
+          :page-sizes="[5, 10, 15, 20]"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+        ></el-pagination>
       </div>
 
       <!-- 侧边栏 -->
@@ -29,7 +39,10 @@ import FlightsItem from "@/components/air/flightsItem.vue";
 export default {
   data() {
     return {
-      dataList: []
+      dataList: [],
+      total: 0,
+      pageIndex: 1,
+      pageSize: 5
     };
   },
   components: {
@@ -41,9 +54,30 @@ export default {
       url: "/airs",
       params: this.$route.query
     }).then(res => {
-      // console.log(res);
+      console.log(res);
+      this.total = res.data.total;
       this.dataList = res.data.flights;
     });
+  },
+  methods: {
+    handleSizeChange(index) {
+      this.pageSize = index;
+    },
+    handleCurrentChange(index) {
+      this.pageIndex = index;
+    }
+  },
+  computed: {
+    List() {
+      if (!this.dataList) {
+        return [];
+      }
+      let arr = this.dataList.slice(
+        (this.pageIndex - 1) * this.pageSize,
+        this.pageIndex * this.pageSize
+      );
+      return arr;
+    }
   }
 };
 </script>
