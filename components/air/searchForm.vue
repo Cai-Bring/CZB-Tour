@@ -110,6 +110,7 @@ export default {
     // value 是选中的值，cb是回调函数，接收要展示的列表
     queryDepartSearch(value, cb) {
       if (!value) {
+        cb([]);
         return;
       }
       this.getCityList(value).then(newData => {
@@ -123,6 +124,7 @@ export default {
     // value 是选中的值，cb是回调函数，接收要展示的列表
     queryDestSearch(value, cb) {
       if (!value) {
+        cb([]);
         return;
       }
       this.getCityList(value).then(newData => {
@@ -200,7 +202,7 @@ export default {
         return;
       }
       this.$router.push({
-        url: "/air/flights",
+        path: "/air/flights",
         // query是url参数
         query: this.form
       });
