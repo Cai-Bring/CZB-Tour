@@ -43,6 +43,7 @@
           placeholder="请选择日期"
           style="width: 100%;"
           @change="handleDate"
+          :picker-options="pickerOptions"
           v-model="form.departDate"
         ></el-date-picker>
       </el-form-item>
@@ -61,6 +62,11 @@ import moment from "moment";
 export default {
   data() {
     return {
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() < Date.now() - 3600 * 1000 * 24;
+        }
+      },
       tabs: [
         { icon: "iconfont icondancheng", name: "单程" },
         { icon: "iconfont iconshuangxiang", name: "往返" }
