@@ -4,7 +4,7 @@
       <!-- 顶部过滤列表 -->
       <div class="flights-content">
         <!-- 过滤条件 -->
-        <div></div>
+        <FlightsFilters :flightdata="flightdata" @gogogo="gogogo"></FlightsFilters>
 
         <!-- 航班头部布局 -->
         <FlightsListHead></FlightsListHead>
@@ -35,10 +35,16 @@
 import moment from "moment";
 import FlightsListHead from "@/components/air/flightsListHead.vue";
 import FlightsItem from "@/components/air/flightsItem.vue";
+import FlightsFilters from "@/components/air/flightsFilters.vue";
 
 export default {
   data() {
     return {
+      flightdata: {
+        info: {},
+        options: {},
+        flights: []
+      },
       dataList: [],
       total: 0,
       pageIndex: 1,
@@ -47,14 +53,16 @@ export default {
   },
   components: {
     FlightsListHead,
-    FlightsItem
+    FlightsItem,
+    FlightsFilters
   },
   mounted() {
     this.$axios({
       url: "/airs",
       params: this.$route.query
     }).then(res => {
-      console.log(res);
+      // console.log(res);
+      this.flightdata = res.data;
       this.total = res.data.total;
       this.dataList = res.data.flights;
     });
@@ -65,6 +73,12 @@ export default {
     },
     handleCurrentChange(index) {
       this.pageIndex = index;
+    },
+    // 接收从头部选择后返回的数据
+    gogogo(send) {
+      // console.log(send);
+      this.dataList = send;
+      this.total = send.length;
     }
   },
   computed: {
