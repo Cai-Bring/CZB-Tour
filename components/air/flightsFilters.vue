@@ -52,6 +52,7 @@
       筛选：
       <el-button type="primary" round plain size="mini" @click="handleFiltersCancel">撤销</el-button>
     </div>
+    <span>{{cheackAll}}</span>
   </div>
 </template>
 
@@ -77,48 +78,80 @@ export default {
       default: () => {}
     }
   },
+  computed: {
+    cheackAll() {
+      const arr = this.flightdata.flights.filter(v => {
+        let ischeack = true;
+        if (this.airport && v.org_airport_name !== this.airport) {
+          ischeack = false;
+        }
+        if (this.flightTimes) {
+          const minhour = +this.flightTimes.split(",")[0];
+          const maxhour = +this.flightTimes.split(",")[1];
+          const hour = +v.dep_time.split(":")[0];
+          if (minhour > hour || maxhour <= hour) {
+            ischeack = false;
+          }
+        }
+        if (this.company && v.airline_name !== this.company) {
+          ischeack = false;
+        }
+        if (this.airSize && v.plane_size !== this.airSize) {
+          ischeack = false;
+        }
+        return ischeack;
+      });
+      this.$emit("gogogo", arr);
+      return "";
+    }
+  },
   methods: {
     // 选择机场时候触发
     handleAirport(value) {
-      const arr = this.flightdata.flights.filter(v => {
-        return v.org_airport_name === value;
-      });
-      //   console.log(arr);
-      this.$emit("gogogo", arr);
+      // const arr = this.flightdata.flights.filter(v => {
+      //   return v.org_airport_name === value;
+      // });
+      // //   console.log(arr);
+      // this.$emit("gogogo", arr);
     },
 
     // 选择出发时间时候触发
     handleFlightTimes(value) {
-      const minhour = +value.split(",")[0];
-      const maxhour = +value.split(",")[1];
-      //   console.log(hour);
-      const arr = this.flightdata.flights.filter(v => {
-        const hour = +v.dep_time.split(":")[0];
-        return minhour <= hour && maxhour > hour;
-      });
-      this.$emit("gogogo", arr);
+      // const minhour = +value.split(",")[0];
+      // const maxhour = +value.split(",")[1];
+      // //   console.log(hour);
+      // const arr = this.flightdata.flights.filter(v => {
+      //   const hour = +v.dep_time.split(":")[0];
+      //   return minhour <= hour && maxhour > hour;
+      // });
+      // this.$emit("gogogo", arr);
     },
 
     // 选择航空公司时候触发
     handleCompany(value) {
-      const arr = this.flightdata.flights.filter(v => {
-        return v.airline_name === value;
-      });
-      // console.log(arr);
-      this.$emit("gogogo", arr);
+      // const arr = this.flightdata.flights.filter(v => {
+      //   return v.airline_name === value;
+      // });
+      // // console.log(arr);
+      // this.$emit("gogogo", arr);
     },
 
     // 选择机型时候触发
     handleAirSize(value) {
-      const arr = this.flightdata.flights.filter(v => {
-        return v.plane_size === value;
-      });
-      //   console.log(arr);
-      this.$emit("gogogo", arr);
+      // const arr = this.flightdata.flights.filter(v => {
+      //   return v.plane_size === value;
+      // });
+      // //   console.log(arr);
+      // this.$emit("gogogo", arr);
     },
 
     // 撤销条件时候触发
-    handleFiltersCancel() {}
+    handleFiltersCancel() {
+      (this.airport = ""), // 机场
+        (this.flightTimes = ""), // 出发时间
+        (this.company = ""), // 航空公司
+        (this.airSize = "");
+    }
   }
 };
 </script>
