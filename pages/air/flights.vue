@@ -70,6 +70,7 @@ export default {
   methods: {
     handleSizeChange(index) {
       this.pageSize = index;
+      console.log(this.List);
     },
     handleCurrentChange(index) {
       this.pageIndex = index;
