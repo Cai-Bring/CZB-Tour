@@ -207,6 +207,7 @@ export default {
         this.$message.error("请选择时间");
         return;
       }
+      this.$store.commit("air/setHistory", this.form);
       this.$router.push({
         path: "/air/flights",
         // query是url参数
