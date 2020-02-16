@@ -25,8 +25,7 @@
 
       <!-- 侧边栏 -->
       <FlightsAside></FlightsAside>
-        <!-- 侧边栏组件 -->
-      </div>
+      <!-- 侧边栏组件 -->
     </el-row>
   </section>
 </template>
