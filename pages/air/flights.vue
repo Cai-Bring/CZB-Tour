@@ -58,17 +58,20 @@ export default {
     FlightsAside
   },
   mounted() {
-    this.$axios({
-      url: "/airs",
-      params: this.$route.query
-    }).then(res => {
-      // console.log(res);
-      this.flightdata = res.data;
-      this.total = res.data.total;
-      this.dataList = res.data.flights;
-    });
+    this.getList();
   },
   methods: {
+    getList() {
+      this.$axios({
+        url: "/airs",
+        params: this.$route.query
+      }).then(res => {
+        // console.log(res);
+        this.flightdata = res.data;
+        this.total = res.data.total;
+        this.dataList = res.data.flights;
+      });
+    },
     handleSizeChange(index) {
       this.pageSize = index;
       console.log(this.List);
@@ -94,6 +97,12 @@ export default {
       );
       return arr;
     }
+  },
+  // 使用beforeRouteUpdate监听侧边栏的变化
+  beforeRouteUpdate(to, from, next) {
+    this.pageIndex = 1;
+    next();
+    this.getList();
   }
 };
 </script>
