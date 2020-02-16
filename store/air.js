@@ -7,6 +7,6 @@ export const state = () => {
 export const mutations = {
     setHistory(state, data) {
         state.history.unshift(data)
-        state.history.slice(0, 5);
+        state.history = state.history.slice(0, 5);
     }
 }
